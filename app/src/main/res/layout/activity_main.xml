@@ -17,7 +17,8 @@
         <WebView
             android:id="@+id/webView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_above="@+id/adView"/>
 
         <!--BANNER original adUnitId=>ca-app-pub-1719443042342371/6683034632-->
         <!--BANNER test adUnitId=>ca-app-pub-3940256099942544/6300978111-->
@@ -25,6 +26,7 @@
             android:id="@+id/adView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             ads:adSize="BANNER"
