@@ -10,8 +10,8 @@ android {
         applicationId "com.vk.mathspoint"
         minSdk 21
         targetSdk 31
-        versionCode 2 //last-1
-        versionName "1.1" //last-1.0
+        versionCode 3 //last-2
+        versionName "1.2" //last-1.1
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
