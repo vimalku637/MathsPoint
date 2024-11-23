@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.vk.mathspoint">
+    >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -12,6 +12,7 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.MathsPoint">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -20,11 +21,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <!--admob key=>application id-->
+        </activity> <!-- admob key=>application id -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-1719443042342371~8115535809"/>
+            android:value="ca-app-pub-1719443042342371~8115535809" />
     </application>
 
 </manifest>
