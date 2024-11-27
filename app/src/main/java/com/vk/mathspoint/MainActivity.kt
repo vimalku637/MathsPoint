@@ -3,6 +3,7 @@ package com.vk.mathspoint
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
@@ -16,10 +17,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityMainBinding
     private var adRequest: AdRequest?=null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding=DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main)
 
         /** ads initialization */
