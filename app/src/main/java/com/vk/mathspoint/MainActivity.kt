@@ -1,14 +1,20 @@
 package com.vk.mathspoint
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
+import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.button.MaterialButton
 import com.vk.mathspoint.databinding.ActivityMainBinding
 import org.mozilla.javascript.Scriptable
@@ -16,11 +22,22 @@ import org.mozilla.javascript.Scriptable
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityMainBinding
     private var adRequest: AdRequest?=null
+    private var interstitialAd: InterstitialAd?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding=DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main)
+
+        // Configure AdMob to show test ads on this device
+        MobileAds.initialize(this@MainActivity) { }
+//        val configuration = RequestConfiguration.Builder()
+//            .setTestDeviceIds(mutableListOf("5F113D5FD7F39144F9B6C130A19CFA3E")) // Replace with your actual test device ID
+//            .build()
+//        MobileAds.setRequestConfiguration(configuration)
+
+        // Load the Interstitial Ad
+        loadInterstitialAd()
 
         /** ads initialization */
         adsInitialization()
@@ -103,8 +120,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun adsInitialization() {
         /**ad-mob ads*/
-        MobileAds.initialize(this@MainActivity)
-
         adRequest = AdRequest.Builder().build()
         binding.adView.loadAd(adRequest!!)
 
@@ -131,6 +146,57 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 // to the app after tapping on an ad.
             }
         }
+    }
+    private fun loadInterstitialAd() {
+        val adRequest = AdRequest.Builder().build()
+
+        InterstitialAd.load(
+            this@MainActivity,
+            getString(R.string.INTERSTITIAL_AD_UNIT_ID), // Use test Ad Unit ID for testing
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdLoaded(ad: InterstitialAd) {
+                    interstitialAd = ad
+
+                    showInterstitialAd()
+//                    setupAdCallbacks()
+                }
+
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    interstitialAd = null
+                    Log.d(TAG, "onAdFailedToLoad: "+"Ad failed to load")
+                }
+            }
+        )
+    }
+
+    private fun setupAdCallbacks() {
+        interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdDismissedFullScreenContent() {
+                Log.d(TAG, "onAdDismissedFullScreenContent: "+"Ad dismissed")
+                // Reload the ad after it's closed
+                loadInterstitialAd()
+            }
+
+            override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                Log.d(TAG, "onAdFailedToShowFullScreenContent: "+"Ad failed to show")
+            }
+
+            override fun onAdShowedFullScreenContent() {
+                interstitialAd = null // Ad is shown, so clear the reference
+            }
+        }
+    }
+
+    private fun showInterstitialAd() {
+        if (interstitialAd != null) {
+            interstitialAd?.show(this@MainActivity)
+        } else {
+            Log.d(TAG, "showInterstitialAd: "+"Ad not ready yet, proceeding without ad")
+        }
+    }
+    companion object {
+        private const val TAG = "MainActivity"
     }
 }
 

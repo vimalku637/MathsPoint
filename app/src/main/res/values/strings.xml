@@ -2,4 +2,5 @@
     <string name="app_name">Basic Calculator</string>
     <string name="TEST_BANNER_AD_UNIT_ID">ca-app-pub-3940256099942544/6300978111</string>
     <string name="BANNER_AD_UNIT_ID">ca-app-pub-1719443042342371/6683034632</string>
+    <string name="INTERSTITIAL_AD_UNIT_ID">ca-app-pub-1719443042342371/9851761321</string>
 </resources>
